@@ -1,3 +1,4 @@
+
 # def draw_parabola(): # 운동1 - 포물선 운동
 #   # 포물선운동
 #   ball = sphere(radius = 0.2) # 물체 반지름
@@ -43,3 +44,22 @@
 #     t = t + dt
 #   print('max_y:', max_y)
 #   print('max_t:', max_t)
+
+import tkinter as tk
+
+def createNewWindow():
+    newWindow = tk.Toplevel(app)
+    labelExample = tk.Label(newWindow, text = "New Window")
+    buttonExample = tk.Button(newWindow, text = "New Window button")
+
+    labelExample.pack()
+    buttonExample.pack()
+
+
+
+app = tk.Tk()
+buttonExample = tk.Button(app, text="Create new window", command=createNewWindow)
+buttonExample.pack()
+
+app.mainloop()
+

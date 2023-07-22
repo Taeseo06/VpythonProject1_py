@@ -62,22 +62,26 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
 
     setting = {'tracker' : 1,
                'radius' : 0.2}
-
     # tracker = 1 # 기본값 1 : on - attach_trail
-
     settingWindow = Toplevel(root)
     settingWindow.title(f'{text} 시뮬레이션 환경 설정창')
     settingWindow.geometry("500x900+290+200")
 
     btn_start = Button(settingWindow, text="시뮬레이션 시작", fg="red", font=tkinter.font.Font(weight="bold", size=15)) # 시뮬레이션 시작버튼
-    btn_tracker = Button(settingWindow, text = "운동 크래커 스위치", fg='blue', font=tkinter.font.Font(weight='bold'))
-    lb_tracker = Label(settingWindow, text = "현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
-    entry_radius = Entry(settingWindow)
+    btn_tracker = Button(settingWindow, text="운동 크래커 스위치", fg='blue', font=tkinter.font.Font(weight='bold'))
+    lb_tracker = Label(settingWindow, text="현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
+    lb_radius = Label(settingWindow, text="운동 물체 반지름 설정")
+    entry_radius = Entry(settingWindow, text="0.2", bg='#2F5597', fg='white', width=8, height=1)
+    btn_pl_radius = Button(settingWindow, text="+", bg='#ffffff', fg='black', width=1, height=1, font=tkinter.font.Font(weight="bold", size=3))
+    btn_mi_radius = Button(settingWindow, text="-", bg='#ffffff', fg='black', width=1, height=1, font=tkinter.font.Font(weight="bold", size=3))
 
     btn_start.pack()
     btn_tracker.place(x=125, y=50)
     lb_tracker.place(x=260, y=53)
+    lb_radius.pack()
     entry_radius.pack()
+    btn_pl_radius.pack()
+    btn_mi_radius.pack()
 
     def tracker_switch():
         nonlocal setting
@@ -88,8 +92,26 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
             setting['tracker'] += 1
             btn_tracker.config(fg='blue', font=tkinter.font.Font(weight="bold"))
         lb_tracker.config(text="현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
+    # 반지름 설정 - 초기 설정창에 기본 값인 0.2 띄워주고, 사용자가 +, - 버튼으로 설정 가능하게 함수설정
+    # -함수, + 함수, 설정함수
+    def plus_radius():
+        nonlocal setting
+        setting['radius'] += 1
+        # 반지름 입력창 값 변경 +1
+        entry_radius.config(text=entry_radius.get() - 1)
+        # entry_radius.configure(text=entry_radius.get() - 1)
+    def minus_radius():
+        nonlocal setting
+        setting['radius'] -= 1
+        # 반지름 입력창 값 변경 -1
+        entry_radius.config(text=entry_radius.get() + 1)
+        # entry_radius.configure(text=entry_radius.get() + 1)
+
+    # setting window 버튼 함수 설정
     btn_start.config(command=draw_parabola)
     btn_tracker.config(command=tracker_switch)
+    btn_pl_radius.config(command=plus_radius)
+    btn_mi_radius.config(command=minus_radius)
 
 
 

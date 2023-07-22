@@ -1,49 +1,4 @@
 
-# def draw_parabola(): # 운동1 - 포물선 운동
-#   # 포물선운동
-#   ball = sphere(radius = 0.2) # 물체 반지름
-#   ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
-#   ball.pos = vec(-2, 0, 0)
-#   ball.v = vec(1, 1, 0)  # y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동r
-#   ball.a = vec(0, -0.35, 0)
-#   attach_trail(ball, type='points', pps=5)
-#
-#   t = 0
-#   dt = 0.01
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     t = t + dt
-#   # 아래는 포물선 운동 그래프 구현
-#   motion_graph = graph(title='position-time', xtitle='t', ytitle='y')
-#   g_bally = gcurve()
-#
-#   motion_graph = graph(title='velocity-time', xtitle='t', ytitle='vy')
-#   g_ballvy = gcurve(color=color.green)
-#
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     g_bally.plot(pos=(t, ball.pos.y))
-#     g_ballvy.plot(pos=(t, ball.v.y))
-#     t = t + dt
-#
-#   max_y = ball.pos.y
-#   max_t = t
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     if ball.pos.y > max_y:
-#       max_y = ball.pos.y
-#       max_t = t
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     g_bally.plot(pos=(t, ball.pos.y))
-#     g_ballvy.plot(pos=(t, ball.v.y))
-#     t = t + dt
-#   print('max_y:', max_y)
-#   print('max_t:', max_t)
 
 import tkinter as tk
 
@@ -63,3 +18,30 @@ buttonExample.pack()
 
 app.mainloop()
 
+#########################
+import tkinter as tk
+
+def on_enter(event):
+    label.config(text="마우스 들어감!")
+def on_leave(event):
+    label.config(text="마우스 나감!")
+def button_clicked():
+    label.config(text="버튼 클릭됨!")
+root = tk.Tk()
+root.geometry("300x200")
+
+label = tk.Label(root, text="버튼 위에 마우스를 올리세요.")
+label.pack(pady=10)
+button = tk.Button(root, text="버튼", command=button_clicked)
+button.pack(pady=5)
+button.bind("<Enter>", on_enter)
+button.bind("<Leave>", on_leave)
+
+root.mainloop()
+
+
+
+
+##### 레퍼런스
+# https://edward0im.github.io/engineering/2021/09/15/vpython-ex7/
+# https://blog.naver.com/gyurse/221034749868

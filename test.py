@@ -1,65 +1,87 @@
+# import tkinter as tk
+#
+# def get_number():
+#     try:
+#         number = int(entry.get())
+#         print("입력한 숫자:", number)
+#     except ValueError:
+#         print("올바른 숫자를 입력해주세요.")
+#
+# root = tk.Tk()
+# root.title("숫자 입력")
+# root.geometry("300x100")
+#
+# label = tk.Label(root, text="숫자를 입력하세요:")
+# label.pack()
+#
+# entry = tk.Entry(root)
+# entry.pack()
+#
+# button = tk.Button(root, text="확인", command=get_number)
+# button.pack()
+#
+# root.mainloop()
 
-# def draw_parabola(): # 운동1 - 포물선 운동
-#   # 포물선운동
-#   ball = sphere(radius = 0.2) # 물체 반지름
-#   ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
-#   ball.pos = vec(-2, 0, 0)
-#   ball.v = vec(1, 1, 0)  # y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동r
-#   ball.a = vec(0, -0.35, 0)
-#   attach_trail(ball, type='points', pps=5)
-#
-#   t = 0
-#   dt = 0.01
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     t = t + dt
-#   # 아래는 포물선 운동 그래프 구현
-#   motion_graph = graph(title='position-time', xtitle='t', ytitle='y')
-#   g_bally = gcurve()
-#
-#   motion_graph = graph(title='velocity-time', xtitle='t', ytitle='vy')
-#   g_ballvy = gcurve(color=color.green)
-#
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     g_bally.plot(pos=(t, ball.pos.y))
-#     g_ballvy.plot(pos=(t, ball.v.y))
-#     t = t + dt
-#
-#   max_y = ball.pos.y
-#   max_t = t
-#   while ball.pos.y > ground.pos.y:
-#     rate(1 / dt)
-#     if ball.pos.y > max_y:
-#       max_y = ball.pos.y
-#       max_t = t
-#     ball.v = ball.v + ball.a * dt
-#     ball.pos = ball.pos + ball.v * dt
-#     g_bally.plot(pos=(t, ball.pos.y))
-#     g_ballvy.plot(pos=(t, ball.v.y))
-#     t = t + dt
-#   print('max_y:', max_y)
-#   print('max_t:', max_t)
+
+
+----------
 
 import tkinter as tk
 
-def createNewWindow():
-    newWindow = tk.Toplevel(app)
-    labelExample = tk.Label(newWindow, text = "New Window")
-    buttonExample = tk.Button(newWindow, text = "New Window button")
+root = tk.Tk()
 
-    labelExample.pack()
-    buttonExample.pack()
+# setting the windows size
+root.geometry("600x400")
+
+# declaring string variable
+# for storing name and password
+name_var = tk.StringVar()
+passw_var = tk.StringVar()
+
+
+# defining a function that will
+# get the name and password and
+# print them on the screen
+def submit():
+  name = name_var.get()
+  password = passw_var.get()
+
+  print("The name is : " + name)
+  print("The password is : " + password)
+
+  name_var.set("")
+  passw_var.set("")
+
+
+# name_label = tk.Label(root, text='Username', font=('calibre', 10, 'bold'))
+name_entry = tk.Entry(root, textvariable=name_var, font=('calibre', 10, 'normal'))
+# passw_label = tk.Label(root, text='Password', font=('calibre', 10, 'bold'))
+passw_entry = tk.Entry(root, textvariable=passw_var, font=('calibre', 10, 'normal'), show='*')
+
+sub_btn = tk.Button(root, text='Submit', command=submit)
+# method
+name_label.grid(row=0, column=0)
+name_entry.grid(row=0, column=1)
+passw_label.grid(row=1, column=0)
+passw_entry.grid(row=1, column=1)
+sub_btn.grid(row=2, column=1)
+
+# performing an infinite loop
+# for the window to display
+root.mainloop()
+
+
+#ticky=tk.W+tk.E+tk.N+tk.S
 
 
 
-app = tk.Tk()
-buttonExample = tk.Button(app, text="Create new window", command=createNewWindow)
-buttonExample.pack()
+-----
 
-app.mainloop()
 
+def motion1_callback():
+  setting = {'tracker': 1, 'radius': 0.2}
+  setting_window("포물선운동", setting)
+  draw_parabola(setting)
+
+
+(lambda setting: draw_parabola(setting))(setting)

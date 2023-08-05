@@ -13,7 +13,7 @@ btn_motion1.place(x=400, y=20)
 
 
 # 포물선을 그리는 함수를 만듭니다.
-def draw_parabola(): # 운동1 - 포물선 운동
+def draw_parabola(setting): # 운동1 - 포물선 운동
 
     canvas(width=1300, height=900)
 
@@ -23,9 +23,16 @@ def draw_parabola(): # 운동1 - 포물선 운동
     ball = sphere(radius = 0.2) # 물체 반지름
     ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
     ball.pos = vec(-2, 0, 0)
-    ball.v = vec(1, 1, 0)  # y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동r
+    ball.v = vec(1, 1, 0)  # y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동
     ball.a = vec(0, -0.35, 0)
-    attach_trail(ball, type='points', pps=6, color=color.red)
+
+    if setting['tracker'] == 1: # setting[tracker] 값에 따라 attach_trail 의 색상을 조정해서 가시/비가시로 구현함
+        tracker_color = color.red
+    else :
+        tracker_color = color.black
+
+    attach_trail(ball, type='points', pps=6, color=tracker_color)
+
 
     t = 0
     dt = 0.01
@@ -90,15 +97,13 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
         if setting['tracker'] == 1: # 1(on) -> 0 (off)
             setting['tracker'] -= 1
             btn_tracker.config(fg='black', font=tkinter.font.Font(weight="normal"))
-        else: # 0 (off) -> 1 (on)
+        else: # 0 (off) -> 1 (on)r
             setting['tracker'] += 1
             btn_tracker.config(fg='blue', font=tkinter.font.Font(weight="bold"))
         lb_tracker.config(text="현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
 
 
-    # btn_start.config(command=draw_parabola)
     btn_start.config(command=lambda: draw_parabola(setting))
-    # btn_start.config(command=((lambda setting: draw_parabola(setting))(setting)))
     btn_tracker.config(command=tracker_switch)
 
 

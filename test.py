@@ -70,7 +70,6 @@ sub_btn.grid(row=2, column=1)
 # for the window to display
 root.mainloop()
 
-
 #ticky=tk.W+tk.E+tk.N+tk.S
 
 

@@ -102,6 +102,7 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
     btn_tracker.config(command=tracker_switch)
 
 
+
 # 모션1 버튼 - 포물선운동 콜백함수
 def motion1_callback():
   # btn_motion1.destroy()

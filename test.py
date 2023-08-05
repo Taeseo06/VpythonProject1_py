@@ -1,26 +1,26 @@
-# import tkinter as tk
-#
-# def get_number():
-#     try:
-#         number = int(entry.get())
-#         print("입력한 숫자:", number)
-#     except ValueError:
-#         print("올바른 숫자를 입력해주세요.")
-#
-# root = tk.Tk()
-# root.title("숫자 입력")
-# root.geometry("300x100")
-#
-# label = tk.Label(root, text="숫자를 입력하세요:")
-# label.pack()
-#
-# entry = tk.Entry(root)
-# entry.pack()
-#
-# button = tk.Button(root, text="확인", command=get_number)
-# button.pack()
-#
-# root.mainloop()
+import tkinter as tk
+
+def get_number():
+    try:
+        number = int(entry.get())
+        print("입력한 숫자:", number)
+    except ValueError:
+        print("올바른 숫자를 입력해주세요.")
+
+root = tk.Tk()
+root.title("숫자 입력")
+root.geometry("300x100")
+
+label = tk.Label(root, text="숫자를 입력하세요:")
+label.pack()
+
+entry = tk.Entry(root)
+entry.pack()
+
+button = tk.Button(root, text="확인", command=get_number)
+button.pack()
+
+root.mainloop()
 
 
 

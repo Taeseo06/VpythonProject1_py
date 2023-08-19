@@ -22,8 +22,9 @@ def draw_parabola(setting): # 운동1 - 포물선 운동
     ball = sphere(radius = setting['radius']) # 물체 반지름
     ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
     ball.pos = vec(-2, 0, 0)
-    ball.v = vec(1, 1, 0)  # y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동
-    ball.a = vec(0, -0.35, 0)
+    ball.v = vec(2, 2, 0) # 물체의 속도를 나타내는 벡터 -> y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동
+    # ball.a = vec(0, -0.35, 0) # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
+    ball.a = vec(0, -2.0, 0)  # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
 
     if setting['tracker'] == 1: # setting[tracker] 값에 따라 attach_trail 의 색상을 조정해서 가시/비가시로 구현함
         tracker_color = color.red
@@ -33,8 +34,7 @@ def draw_parabola(setting): # 운동1 - 포물선 운동
 
 
     t = 0
-    # dt = 0.01
-    dt = 0.0001
+    dt = 0.01
     while ball.pos.y > ground.pos.y:
         rate(1 / dt)
         ball.v = ball.v + ball.a * dt
@@ -53,7 +53,7 @@ def draw_parabola(setting): # 운동1 - 포물선 운동
         ball.pos = ball.pos + ball.v * dt
         g_bally.plot(pos=(t, ball.pos.y))
         g_ballvy.plot(pos=(t, ball.v.y))
-        t = t + dt
+        t = t + d
 
     max_y = ball.pos.y
     max_t = t
@@ -87,7 +87,9 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
     lb_radius = Label(settingWindow, text="운동할 원의 반지름을 설정해주세요") # 반지름 설정 라벨
     spin_radius = Spinbox(settingWindow, from_=0.1, to=1.0, increment=.1, textvariable=setting['radius'], width=10) # 반지름 설정 스핀박스
     lb_speed = Label(settingWindow, text="원의 운동 속도를 설정해주세요") # 운동속도 설정 라벨
-    combo_speed = ttk.Combobox(settingWindow, state="readonly", textvariable=str, values=['-3', '-2', '-1', '기본속도', '+1', '+2', '+3']) # 운동속도 설정 콤보박스
+
+    combobox_var = StringVar()
+    combo_speed = ttk.Combobox(settingWindow, state="readonly", textvariable=combobox_var, values=['-4', '-3', '-2', '-1', '기본속도', '+1', '+2', '+3', '+4'], width=10) # 운동속도 설정 콤보박스
 
 
 
@@ -119,19 +121,26 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
         try:
             number = float(spin_radius.get())
             setting['radius'] = number
-            print("입력한 숫자:", number)
         except ValueError:
-            print("올바른 숫자를 입력해주세요.")
+            print("반지름-올바른 숫자를 입력해주세요.")
+
+    def on_combobox_select(event):
+        selected_value = combobox_var.get()
+        print(f'현재속도 : {selected_value}')
+
+        # if selected_value == '기본속도':
+        # result_label.config(text="Selected value: " + selected_value)
 
     btn_start.config(command=lambda: draw_parabola(setting))
     btn_tracker.config(command=tracker_switch)
     spin_radius.config(command=get_radius)
-
+    # combo_speed.config(command=)
+    combo_speed.bind("<<ComboboxSelected>>", on_combobox_select)
 
 
 # 모션1 버튼 - 포물선운동 콜백함수
 def motion1_callback():
-  # btn_motion1.destroy()
+  btn_motion1.destroy()
 
   setting_window("포물선운동")
 

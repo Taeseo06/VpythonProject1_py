@@ -84,3 +84,20 @@ def motion1_callback():
 
 
 (lambda setting: draw_parabola(setting))(setting)
+
+--------- 콤보박스 예시
+## Combobox
+root = tk.Tk()
+string = tk.StringVar()
+combobox = tk.Combobox(root,textvariable=string,values=['Type A','Type B','Type C'])
+combobox.pack()
+root.mainloop()
+
+-----
+
+## Spinbox
+root = tk.Tk()
+my_double_var = tk.DoubleVar()
+spinbox = tk.Spinbox(root,from_ =0.5, to=50.0, increment=.1, textvariable=my_double_var)
+spinbox.pack()
+root.mainloop()

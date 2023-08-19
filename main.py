@@ -1,5 +1,7 @@
 from tkinter import *
 from vpython import *
+from tkinter import ttk
+import tkinter.messagebox as msgbox
 import tkinter.font
 
 root = Tk()
@@ -27,12 +29,12 @@ def draw_parabola(setting): # 운동1 - 포물선 운동
         tracker_color = color.red
     else :
         tracker_color = color.black
-
     attach_trail(ball, type='points', pps=6, color=tracker_color)
 
 
     t = 0
-    dt = 0.01
+    # dt = 0.01
+    dt = 0.0001
     while ball.pos.y > ground.pos.y:
         rate(1 / dt)
         ball.v = ball.v + ball.a * dt
@@ -80,21 +82,25 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
     settingWindow.geometry("500x900+290+200")
 
     btn_start = Button(settingWindow, text="시뮬레이션 시작", fg="red", font=tkinter.font.Font(weight="bold", size=15)) # 시뮬레이션 시작버튼
-    btn_tracker = Button(settingWindow, text = "운동 크래커 스위치", fg='blue', font=tkinter.font.Font(weight='bold'))
-    lb_tracker = Label(settingWindow, text = "현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
-    lb_radius = Label(settingWindow, text="운동할 원의 반지름을 설정해주세요")
-    entry_radius = Entry(settingWindow, textvariable=setting['radius'], width=5, font=('calibre', 10, 'normal'))
-    btn_radius = Button(settingWindow, text="저장")
+    btn_tracker = Button(settingWindow, text = "운동 크래커 스위치", fg='blue', font=tkinter.font.Font(weight='bold')) # 운동 트랙커 스위치 (on/off)
+    lb_tracker = Label(settingWindow, text = "현재상태 : " + ("ON" if setting['tracker'] else "OFF")) # 트랙커 상태 표시라벨
+    lb_radius = Label(settingWindow, text="운동할 원의 반지름을 설정해주세요") # 반지름 설정 라벨
+    spin_radius = Spinbox(settingWindow, from_=0.1, to=1.0, increment=.1, textvariable=setting['radius'], width=10) # 반지름 설정 스핀박스
+    lb_speed = Label(settingWindow, text="원의 운동 속도를 설정해주세요") # 운동속도 설정 라벨
+    combo_speed = ttk.Combobox(settingWindow, state="readonly", textvariable=str, values=['-3', '-2', '-1', '기본속도', '+1', '+2', '+3']) # 운동속도 설정 콤보박스
 
 
 
     btn_start.pack()
     btn_tracker.place(x=125, y=70)
-    lb_tracker.place(x=260, y=73)
+    lb_tracker.place(x=290, y=73)
 
-    lb_radius.place(x=150, y=120)
-    entry_radius.place(x=200, y=140)
-    btn_radius.place(x=337, y=116)
+    lb_radius.place(x=155, y=120)
+    spin_radius.place(x=193, y=140)
+
+    lb_speed.place(x=170, y=190)
+    combo_speed.place(x=165, y=230)
+
 
     def tracker_switch():
         nonlocal setting
@@ -106,10 +112,12 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
             btn_tracker.config(fg='blue', font=tkinter.font.Font(weight="bold"))
         lb_tracker.config(text="현재상태 : " + ("ON" if setting['tracker'] else "OFF"))
 
-    def get_number():
+
+
+    def get_radius():
         nonlocal setting
         try:
-            number = float(entry_radius.get())
+            number = float(spin_radius.get())
             setting['radius'] = number
             print("입력한 숫자:", number)
         except ValueError:
@@ -117,7 +125,7 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
 
     btn_start.config(command=lambda: draw_parabola(setting))
     btn_tracker.config(command=tracker_switch)
-    btn_radius.config(command=get_number)
+    spin_radius.config(command=get_radius)
 
 
 

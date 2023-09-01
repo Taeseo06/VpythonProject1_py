@@ -1,103 +1,29 @@
-import tkinter as tk
+import vpython as vp
 
-def get_number():
-    try:
-        number = int(entry.get())
-        print("입력한 숫자:", number)
-    except ValueError:
-        print("올바른 숫자를 입력해주세요.")
+# 바닥을 정의합니다.
+floor = vp.box(pos=vp.vec(0, -1, 0), size=vp.vec(10, 1, 1), color=vp.color.white)
 
-root = tk.Tk()
-root.title("숫자 입력")
-root.geometry("300x100")
+# 물체를 정의합니다.
+ball = vp.sphere(pos=vp.vec(0, 0, 0), radius=1, color=vp.color.red)
 
-label = tk.Label(root, text="숫자를 입력하세요:")
-label.pack()
+# 마우스의 위치를 얻습니다.
+def update():
+    # 마우스의 위치
+    x, y = vp.mouse.pos
 
-entry = tk.Entry(root)
-entry.pack()
+    # 마우스와 물체 사이의 거리를 구합니다.
+    distance = vp.mag(ball.pos - vp.vec(x, y, 0))
 
-button = tk.Button(root, text="확인", command=get_number)
-button.pack()
+    # 힘을 구합니다.
+    force = distance * 0.1
 
-root.mainloop()
+    # 힘을 적용합니다.
+    if vp.mouse.left:
+        ball.v += force / ball.m * vp.dt
+        ball.pos += ball.v * vp.dt
 
+vp.rate(100)
+vp.window.run()
 
-
-----------
-
-import tkinter as tk
-
-root = tk.Tk()
-
-# setting the windows size
-root.geometry("600x400")
-
-# declaring string variable
-# for storing name and password
-name_var = tk.StringVar()
-passw_var = tk.StringVar()
-
-
-# defining a function that will
-# get the name and password and
-# print them on the screen
-def submit():
-  name = name_var.get()
-  password = passw_var.get()
-
-  print("The name is : " + name)
-  print("The password is : " + password)
-
-  name_var.set("")
-  passw_var.set("")
-
-
-# name_label = tk.Label(root, text='Username', font=('calibre', 10, 'bold'))
-name_entry = tk.Entry(root, textvariable=name_var, font=('calibre', 10, 'normal'))
-# passw_label = tk.Label(root, text='Password', font=('calibre', 10, 'bold'))
-passw_entry = tk.Entry(root, textvariable=passw_var, font=('calibre', 10, 'normal'), show='*')
-
-sub_btn = tk.Button(root, text='Submit', command=submit)
-# method
-name_label.grid(row=0, column=0)
-name_entry.grid(row=0, column=1)
-passw_label.grid(row=1, column=0)
-passw_entry.grid(row=1, column=1)
-sub_btn.grid(row=2, column=1)
-
-# performing an infinite loop
-# for the window to display
-root.mainloop()
-
-#ticky=tk.W+tk.E+tk.N+tk.S
-
-
-
------
-
-
-def motion1_callback():
-  setting = {'tracker': 1, 'radius': 0.2}
-  setting_window("포물선운동", setting)
-  draw_parabola(setting)
-
-
-(lambda setting: draw_parabola(setting))(setting)
-
---------- 콤보박스 예시
-## Combobox
-root = tk.Tk()
-string = tk.StringVar()
-combobox = tk.Combobox(root,textvariable=string,values=['Type A','Type B','Type C'])
-combobox.pack()
-root.mainloop()
-
------
-
-## Spinbox
-root = tk.Tk()
-my_double_var = tk.DoubleVar()
-spinbox = tk.Spinbox(root,from_ =0.5, to=50.0, increment=.1, textvariable=my_double_var)
-spinbox.pack()
-root.mainloop()
+while True:
+    update()

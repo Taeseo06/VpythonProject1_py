@@ -12,6 +12,18 @@ root.geometry("900x600+450+300")
 btn_motion1 = Button(root, text="포물선 운동", width = 7, height = 2, relief = "solid", overrelief= "solid")
 btn_motion1.place(x=400, y=20)
 
+btn_motion2 = Button(root, text="자유낙하 운동", width = 7, height = 2, relief = "solid", overrelief= "solid")
+btn_motion2.place(x=400, y=80)
+
+btn_motion3 = Button(root, text="등속 운동", width = 7, height = 2, relief = "solid", overrelief= "solid")
+btn_motion3.place(x=400, y=140)
+
+btn_motion4 = Button(root, text="등가속도 운동", width = 7, height = 2, relief = "solid", overrelief= "solid")
+btn_motion4.place(x=400, y=200)
+
+btn_motion5 = Button(root, text="원 운동", width = 7, height = 2, relief = "solid", overrelief= "solid")
+btn_motion5.place(x=400, y=260)
+
 
 
 # 포물선을 그리는 함수를 만듭니다.
@@ -23,12 +35,14 @@ def draw_parabola(setting): # 운동1 - 포물선 운동
 
     # 포물선운동
     ball = sphere(radius = setting['radius']) # 물체 반지름
+    # ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
     ground = box(pos=vec(0, -4, 0), size=vec(15, -0.01, 5))
     ball.pos = vec(-2, 0, 0)
-    ball.v = vec(2, 2, 0) # 물체의 속도를 나타내는 벡터 -> y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동
-    # ball.a = vec(0, -0.35, 0) # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
+    ball.v = vec(1, 1, 0) # 물체의 속도를 나타내는 벡터 -> y값 0 : 제자리에서 포물선 운동, 1 : 위로 올라갔다가 떨어지는 포물선운동
+    # ball.v = vec(2, 1, 0)  # y축 방향으로 2m/s의 속도로 운동
+    ball.a = vec(0, -0.3, 0) # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
 
-    ball.a = vec(0, -9.8, 0)  # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
+    # ball.a = vec(0, -9.8, 0)  # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
     # ball.a = vec(2, -0.35, 0) # 물체의 가속도를 나타내는 벡터 -> y값 : 중력의 정도
 
     if setting['tracker'] == 1: # setting[tracker] 값에 따라 attach_trail 의 색상을 조정해서 가시/비가시로 구현함
@@ -133,7 +147,7 @@ def setting_window(text): # 시뮬레이션 환경설정 윈도우 - (생성)
     def on_combobox_select(event):
         nonlocal setting
         setting['gravity_speed'] = combobox_var.get()
-        print(f'현재 중력가속도 : {setting['gravity_speed']}')
+        # print(f'현재 중력가속도 : {setting['gravity_speed']}')
 
         # if gravity_speed == '기본속도':
         # result_label.config(text="Selected value: " + gravity_speed)
